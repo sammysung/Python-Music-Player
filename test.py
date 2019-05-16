@@ -8,17 +8,30 @@ def clr():
     print("\n"*100)
     cmd = 'clear' if os.name == 'posix' else 'cls'
     subprocess.call(cmd, shell=True)
-    os.system('cls' if os.name == 'nt' else 'clear')
+    # os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def ctrl():
-    import threading
+    import threading, os, tkinter
+    from tkinter import filedialog
+    # import subprocess
+    if os.name == 'nt':
+        os.environ['PATH'] += ';C:\\Program Files\\VideoLAN\\VLC'
+        # print(os.environ['PATH'])
+        # subprocess.call("Start \"\" /b vlc.exe & "
+        #                "timeout /T 1 /nobreak >nul & "
+        #                "taskkill /IM vlc.exe /F", shell=True)
     rand = input("Do you want to pick a random track? [y/n] \n")
-    dir2 = "/media/sam/Cross_Store/Music/"
+    dir2 = "C:/Users/start/Music"
     if rand.lower() == "y":
         direc = input("Do you want to input the path to your music, or use the default? [y/n]\nDefault: " + dir2 + "\n")
         if direc.lower() == "y":
-            dir2 = input("Input the highest level directory you want to scan from: \n")
+            root = tkinter.Tk()
+            #root.mainloop()
+            #root.withdraw()
+            dir2 = filedialog.askdirectory()
+            root.destroy()
+            # dir2 = input("Input the highest level directory you want to scan from: \n")
     one = threading.Thread(target=play, args=(rand, dir2,), name="Player")
     one.start()
     two = threading.Thread(target=menu, name="Menu", daemon=True)
