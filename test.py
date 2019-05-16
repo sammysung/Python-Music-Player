@@ -71,12 +71,17 @@ def play(rand, dir2):
                 if filename.endswith(".mp3"):
                     fileset.append(os.path.join(path, filename))
 
-        i = 0
+        # i = 0
         le = len(fileset)
-        lis = []
-        while i < le:
-            lis.append(random.choice(fileset))
-            i += 1
+        # lis = []
+        lis = fileset
+        random.shuffle(lis)
+
+        # This is shuffling "by hand", but it has a lot of repeats possible. Don't use if you don't have to.
+
+        # while i < le:
+        #    lis.append(random.choice(fileset))
+        #    i += 1
 
         # This way works well enough if you don't care to be picky with your subdirectories
 
