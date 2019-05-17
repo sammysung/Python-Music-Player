@@ -13,7 +13,13 @@ def clr():
 
 def ctrl():
     import threading, os, tkinter
+    # import queue
     from tkinter import filedialog
+    import multiprocessing
+    global check
+
+    multiprocessing.cpu_count()
+
     # import subprocess
     if os.name == 'nt':
         os.environ['PATH'] += ';C:\\Program Files\\VideoLAN\\VLC'
@@ -26,12 +32,25 @@ def ctrl():
     if rand.lower() == "y":
         direc = input("Do you want to input the path to your music, or use the default? [y/n]\nDefault: " + dir2 + "\n")
         if direc.lower() == "y":
+            # que = queue.Queue()
+            # sel = threading.Thread(target=lambda q: q.put(select()), args=(que,), name="Selection Menu")
+            # sel.start()
+            # sel.join()
+            # dir2 = que.get()
+            # check = "Done"
+        #else:
+            # check = "Done"
+
             root = tkinter.Tk()
-            #root.mainloop()
-            #root.withdraw()
+            # root.mainloop()
+            root.withdraw()
+            root.update()
             dir2 = filedialog.askdirectory()
+            root.update()
             root.destroy()
             # dir2 = input("Input the highest level directory you want to scan from: \n")
+    # while check != "Done":
+    #    pass
     one = threading.Thread(target=play, args=(rand, dir2,), name="Player")
     one.start()
     two = threading.Thread(target=menu, name="Menu", daemon=True)
@@ -39,26 +58,16 @@ def ctrl():
     one.join()
     two.join()
 
-
-# one.join()
-# two.join()
-# one.start()
-# one.join()
-# two.start()
-# two.join()
-
-
 # Use this one for just a specific folder (in this case, SMT3 Disc 1)
 
 # dir = "/media/sam/Cross_Store/Music/Shin Megami Tensei III NOCTURNE ORIGINAL SOUNDTRACK [MP3]/Disc 1/"
 
-# This dir will catch all of my music
 
 def play(rand, dir2):
     import vlc, os, random
     global check
     global go
-    #rand = input("Do you want to pick a random track? [y/n] \n")
+    # rand = input("Do you want to pick a random track? [y/n] \n")
     if rand.lower() == 'y':
         # exclude = set(["Windows"])
 
@@ -70,6 +79,8 @@ def play(rand, dir2):
             for filename in files:
                 if filename.endswith(".mp3"):
                     fileset.append(os.path.join(path, filename))
+
+        # If you do want to go backwards, though, this will shuffle for you, and use the index to control playback.
 
         # i = 0
         le = len(fileset)
@@ -103,7 +114,7 @@ def play(rand, dir2):
                 # file = random.choice(fileset)
                 file = lis[count]
             print("\nNow playing: \n" + file)
-            #print("Index is %d" % count)
+            print("Track %d of %d" % (count+1, le))
             p = ""
             p = vlc.MediaPlayer(file)
             p.play()
@@ -155,6 +166,26 @@ def play(rand, dir2):
                     check = ""
                     count -= 2
                     break
+                elif check.lower() == 'i':
+                    #p.pause()
+                    d = input("Enter in the number of the track you want to play.\n"
+                              "Example: `201` for the 201st track\n")
+                    try:
+                        num = int(d)
+                        if num > 0 and num < le:
+                            num -= 2
+                            check = ""
+                            count = num
+                            go = 1
+                            break
+                        else:
+                            print("Number out of range, try again!")
+                            continue
+                    except ValueError:
+                        print("Not an int, try again!")
+                        continue
+                    # print(d)
+                    # print(len(d))
             #    if p.is_playing() == 0:
             #        break
             clr()
@@ -162,7 +193,8 @@ def play(rand, dir2):
             p.stop()
             count += 1
             if go == 0:
-                print("Controls:\n[H]old, [N]ext Track, [P]revious Track, [S]top, [R]estart\nOther input is ignored.")
+                print("Controls:\n[H]old, [N]ext Track, [P]revious Track, [S]top, [R]estart, [I]ndex"
+                      "\nOther input is ignored.")
             go = 0
             time.sleep(1)
 
@@ -212,20 +244,26 @@ def play(rand, dir2):
             pass
         print("Done!")
         if go == 0:
-            print("Controls:\n[H]old, [N]ext Track, [P]revious Track, [S]top, [R]estart\nOther input is ignored.")
+            print("Controls:\n[H]old, [N]ext Track, [P]revious Track, [S]top, [R]estart, [I]ndex"
+                  "\nOther input is ignored.")
         p.stop()
 
 
 def menu():
+    import sys
     global check
     global go
     time.sleep(1)
     while True:
         if go == 0:
-            check = input("Controls:\n[H]old, [N]ext Track, [P]revious Track, "
-                          "[S]top, [R]estart\nOther input is ignored.\n")
-            #check = input("\nDo you want to [P]ause, [N]ext Track, or [S]top? "
-            #              "Other input will check song completion. \n")
+            print("Controls:\n[H]old, [N]ext Track, [P]revious Track, [S]top, [R]estart, [I]ndex"
+                  "\nOther input is ignored.\n", end=' ')
+            sys.stdout.flush()
+            check = sys.stdin.readline().rstrip()
+            #check = input("Controls:\n[H]old, [N]ext Track, [P]revious Track, "
+            #              "[S]top, [R]estart, [I]ndex\nOther input is ignored.\n")
+
+
             go = 1
         else:
             continue
@@ -242,9 +280,29 @@ def menu():
             continue
         elif check.lower() == "n":
             continue
+        elif check.lower() == "i":
+            continue
         else:
             # print("Bad input, try again!")
             go = 0
+
+
+# This method is unused since OSX really does not like UI operations in non-main threads, for whatever reason.
+# Might work fine for other OSs, yet to try it.
+# Will create the directory picker in its own thread.
+
+
+def select():
+    import tkinter
+    from tkinter import filedialog
+    root = tkinter.Tk()
+    # root.mainloop()
+    root.withdraw()
+    dir2 = filedialog.askdirectory()
+    #root.update()
+    root.destroy()
+    return dir2
+    # dir2 = input("Input the highest level directory you want to scan from: \n")
 
 
 if __name__ == "__main__":
