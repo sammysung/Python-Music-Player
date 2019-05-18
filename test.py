@@ -42,6 +42,7 @@ def ctrl():
             # check = "Done"
 
             root = tkinter.Tk()
+            root.wm_attributes('-topmost', 1)
             # root.mainloop()
             root.withdraw()
             root.update()
@@ -251,6 +252,7 @@ def play(rand, dir2):
 
 def menu():
     import sys
+    from sys import platform
     global check
     global go
     time.sleep(1)
@@ -260,10 +262,14 @@ def menu():
                   "\nOther input is ignored.\n", end=' ')
             sys.stdout.flush()
             check = sys.stdin.readline().rstrip()
-            #check = input("Controls:\n[H]old, [N]ext Track, [P]revious Track, "
-            #              "[S]top, [R]estart, [I]ndex\nOther input is ignored.\n")
-
-
+            #if platform == "darwin":
+                #print("Controls:\n[H]old, [N]ext Track, [P]revious Track, [S]top, [R]estart, [I]ndex"
+                #      "\nOther input is ignored.\n", end=' ')
+                #sys.stdout.flush()
+                #check = sys.stdin.readline().rstrip()
+            #else:
+            #    check = input("Controls:\n[H]old, [N]ext Track, [P]revious Track, "
+            #                  "[S]top, [R]estart, [I]ndex\nOther input is ignored.\n")
             go = 1
         else:
             continue
