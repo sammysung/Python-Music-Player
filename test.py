@@ -15,10 +15,10 @@ def ctrl():
     import threading, os, tkinter
     # import queue
     from tkinter import filedialog
-    import multiprocessing
+    # import multiprocessing
     global check
 
-    multiprocessing.cpu_count()
+    # print("CPU count is: %d" % multiprocessing.cpu_count())
 
     # import subprocess
     if os.name == 'nt':
@@ -125,15 +125,15 @@ def play(rand, dir2):
                 #    if p.is_playing() == 0:
                 #        break
 
-                #    cmd = input("Do you want to [P]ause, [N]ext Track, or [S]top? Other input will check song completion. ")
+                #cmd = input("Do you want to [P]ause, [N]ext Track, or [S]top? Other input will check song completion. ")
                 if check.lower() == "s":
                     count = le
                     break
                 elif check.lower() == "h":
                     p.pause()
                     d = input("Press any key to continue playback, blank to end playback... \n")
-                    #print(d)
-                    #print(len(d))
+                    # print(d)
+                    # print(len(d))
                     check = ""
                     if len(d) != 0:
                         p.play()
@@ -148,10 +148,10 @@ def play(rand, dir2):
                         break
                     check = ""
                     print("Skipping Track!")
-                    #p.stop()
-                    #count += 1
-                    #go = 0
-                    #continue
+                    # p.stop()
+                    # count += 1
+                    # go = 0
+                    # continue
                     break
                 elif check.lower() == "r":
                     re = 1
@@ -168,7 +168,7 @@ def play(rand, dir2):
                     count -= 2
                     break
                 elif check.lower() == 'i':
-                    #p.pause()
+                    # p.pause()
                     d = input("Enter in the number of the track you want to play.\n"
                               "Example: `201` for the 201st track\n")
                     try:
@@ -190,7 +190,7 @@ def play(rand, dir2):
             #    if p.is_playing() == 0:
             #        break
             clr()
-            #print("Done!")
+            # print("Done!")
             p.stop()
             count += 1
             if go == 0:
@@ -234,9 +234,9 @@ def play(rand, dir2):
                 #    print(len(d))
                 if len(d) != 0:
                     p.play()
+                else:
                     time.sleep(3)
                     go = 0
-                else:
                     break
             elif check.lower() == 'n':
                 break
@@ -252,28 +252,28 @@ def play(rand, dir2):
 
 def menu():
     import sys
-    from sys import platform
+    # from sys import platform
     global check
     global go
     time.sleep(1)
     while True:
         if go == 0:
             print("Controls:\n[H]old, [N]ext Track, [P]revious Track, [S]top, [R]estart, [I]ndex"
-                  "\nOther input is ignored.\n", end=' ')
+                  "\nOther input is ignored.\n", end = ' ')
             sys.stdout.flush()
             check = sys.stdin.readline().rstrip()
-            #if platform == "darwin":
-                #print("Controls:\n[H]old, [N]ext Track, [P]revious Track, [S]top, [R]estart, [I]ndex"
-                #      "\nOther input is ignored.\n", end=' ')
-                #sys.stdout.flush()
-                #check = sys.stdin.readline().rstrip()
-            #else:
+            # if platform == "darwin":
+                # print("Controls:\n[H]old, [N]ext Track, [P]revious Track, [S]top, [R]estart, [I]ndex"
+                #       "\nOther input is ignored.\n", end=' ')
+                # sys.stdout.flush()
+                # check = sys.stdin.readline().rstrip()
+            # else:
             #    check = input("Controls:\n[H]old, [N]ext Track, [P]revious Track, "
             #                  "[S]top, [R]estart, [I]ndex\nOther input is ignored.\n")
             go = 1
         else:
             continue
-        #print("Check is " + check)
+        # print("Check is " + check)
         time.sleep(0.1)
         if check.lower() == "s":
             print("Outta here!")
@@ -304,11 +304,11 @@ def select():
     root = tkinter.Tk()
     # root.mainloop()
     root.withdraw()
+    # root.update()
     dir2 = filedialog.askdirectory()
-    #root.update()
+    # root.update()
     root.destroy()
     return dir2
-    # dir2 = input("Input the highest level directory you want to scan from: \n")
 
 
 if __name__ == "__main__":
