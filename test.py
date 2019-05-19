@@ -20,13 +20,13 @@ def ctrl():
 
     # print("CPU count is: %d" % multiprocessing.cpu_count())
 
-    # import subprocess
+    import subprocess
     if os.name == 'nt':
         os.environ['PATH'] += ';C:\\Program Files\\VideoLAN\\VLC'
         # print(os.environ['PATH'])
-        # subprocess.call("Start \"\" /b vlc.exe & "
-        #                "timeout /T 1 /nobreak >nul & "
-        #                "taskkill /IM vlc.exe /F", shell=True)
+        subprocess.call("Start \"\" /b vlc.exe & "
+                        "timeout /T 1 /nobreak >nul & "
+                        "taskkill /IM vlc.exe /F", shell=True)
     rand = input("Do you want to pick a random track? [y/n] \n")
     dir2 = "C:/Users/start/Music"
     if rand.lower() == "y":
