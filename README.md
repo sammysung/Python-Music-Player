@@ -1,7 +1,7 @@
 # Python-Music-Player
 A test music player for learning how to use Python with a (somewhat silly) real world application.
 
-# Usage
+## Usage
 Simply call "test.py" using Python 3, like so:
 
 `python3 test.py`
@@ -17,7 +17,7 @@ At the moment, looks for `.MP3` files exclusively. Also passes over
 directories named "*Windows*" and any sub-directories within them; this is
 a personal workaround for my music library, you can remove it if needed.
 
-# Platforms
+## Platforms
 
 So far, the x86-64 platforms tested have been:
 
@@ -36,7 +36,7 @@ Also, with the proper configuration (info listed down below), you can
 also run this in the Bash on Windows Subsystem environment, if this is
 something you want/need.
 
-# Dependencies
+## Dependencies
 
 You must install the following programs to get this running:
 
@@ -46,9 +46,9 @@ You must install the following programs to get this running:
 
 - Tkinter (part of Python)
 
-# OS Notes
+## OS Notes
 
-## Linux 
+### Linux 
 
 Ensure that you install the `python3-tk` package so you can have the
 tkinter directory picking function and eventually (maybe) the whole GUI.
@@ -56,7 +56,7 @@ tkinter directory picking function and eventually (maybe) the whole GUI.
 Other than that, the heart of the program was made on Linux, so most
 issues have been ironed out to my knowledge.
 
-## OSX
+### OSX
 
 You may have to forgo [Homebrew](https://brew.sh/) python3 installation 
 if you have trouble with Tkinter and use the `.pkg` offered from the 
@@ -70,7 +70,7 @@ Tkinter will also crash if you have an open `raw_input` or `input`
 function in a different thread when you call it, so the technique used 
 in `menu()` is to get around this.
 
-## Windows
+### Windows
 
 From a fresh boot, you must at least run VLC once to get the library to 
 load; there is a Windows-specific command programmed in to open and 
@@ -81,7 +81,7 @@ calls that seemingly failed; these don't affect anything from what I can
 tell, and finding info on this issue has been fruitless. If you happen 
 to know why this happens or a way to fix it, please let me know!
 
-## Windows Subsystem for Linux
+### Windows Subsystem for Linux
 
 This one is tricky; for starters, follow the Linux notes above, 
 you'll need it to run anything.
