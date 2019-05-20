@@ -42,7 +42,7 @@ You must install the following programs to get this running:
 
 - VLC 
 
-- Python 3
+- Python 3 (tested with 3.7.3, specifically)
 
 - Tkinter (part of Python)
 
@@ -54,7 +54,7 @@ Ensure that you install the `python3-tk` package so you can have the
 tkinter directory picking function and eventually (maybe) the whole GUI.
 
 Other than that, the heart of the program was made on Linux, so most
-issues have been ironed out to my knowledge
+issues have been ironed out to my knowledge.
 
 ## OSX
 
