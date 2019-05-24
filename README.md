@@ -21,7 +21,7 @@ a personal workaround for my music library, you can remove it if needed.
 
 So far, the x86-64 platforms tested have been:
 
-- Windows 10 (1803) 
+- Windows 10  
 
 - Ubuntu 19.04 
 
@@ -46,6 +46,8 @@ You must install the following programs to get this running:
 
 - Tkinter (part of Python)
 
+- python-vlc, or Python can't make use of VLC
+
 ## OS Notes
 
 ### Linux 
@@ -60,7 +62,8 @@ issues have been ironed out to my knowledge.
 
 You may have to forgo [Homebrew](https://brew.sh/) python3 installation 
 if you have trouble with Tkinter and use the `.pkg` offered from the 
-python homepage, though you should try Homebrew first.
+python homepage, though you should try Homebrew first. Make sure that if
+you do try the Homebrew way, you install python3 with tk.
 
 You cannot make UI threads in non-main methods for OSX (may be true for 
 other OSs as well, I'm not sure), so `select()` is useless here, even if
@@ -82,6 +85,9 @@ tell, and finding info on this issue has been fruitless. If you happen
 to know why this happens or a way to fix it, please let me know!
 
 ### Windows Subsystem for Linux
+
+If you don't already have the subsystem set up, [this page](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
+will get you started. Read up on why you might want to [here](https://docs.microsoft.com/en-us/windows/wsl/faq).
 
 This one is tricky; for starters, follow the Linux notes above, 
 you'll need it to run anything.

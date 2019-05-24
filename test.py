@@ -4,7 +4,8 @@ go = 0
 
 
 def clr():
-    import subprocess, os
+    import subprocess
+    import os
     print("\n"*100)
     cmd = 'clear' if os.name == 'posix' else 'cls'
     subprocess.call(cmd, shell=True)
@@ -12,15 +13,19 @@ def clr():
 
 
 def ctrl():
-    import threading, os, tkinter
-    # import queue
+    import threading
+    import os
+    import tkinter
     from tkinter import filedialog
+    from pathlib import Path
+    import subprocess
+    # import queue
     # import multiprocessing
+
     global check
 
     # print("CPU count is: %d" % multiprocessing.cpu_count())
 
-    import subprocess
     if os.name == 'nt':
         os.environ['PATH'] += ';C:\\Program Files\\VideoLAN\\VLC'
         # print(os.environ['PATH'])
@@ -28,7 +33,8 @@ def ctrl():
                         "timeout /T 1 /nobreak >nul & "
                         "taskkill /IM vlc.exe /F", shell=True)
     rand = input("Do you want to pick a random track? [y/n] \n")
-    dir2 = "C:/Users/start/Music"
+    dir2 = str(Path.home())
+    dir2 += "/Music"
     if rand.lower() == "y":
         direc = input("Do you want to input the path to your music, or use the default? [y/n]\nDefault: " + dir2 + "\n")
         if direc.lower() == "y":
@@ -46,7 +52,7 @@ def ctrl():
             # root.mainloop()
             root.withdraw()
             root.update()
-            dir2 = filedialog.askdirectory()
+            dir2 = filedialog.askdirectory(initialdir=dir2)
             root.update()
             root.destroy()
             # dir2 = input("Input the highest level directory you want to scan from: \n")
@@ -65,7 +71,9 @@ def ctrl():
 
 
 def play(rand, dir2):
-    import vlc, os, random
+    import vlc
+    import os
+    import random
     global check
     global go
     # rand = input("Do you want to pick a random track? [y/n] \n")
@@ -116,9 +124,34 @@ def play(rand, dir2):
                 file = lis[count]
             print("\nNow playing: \n" + file)
             print("Track %d of %d" % (count+1, le))
-            p = ""
-            p = vlc.MediaPlayer(file)
+            #p = ""
+            #p = vlc.MediaPlayer(file)
+
+            p = vlc.Instance()
+            m = p.media_new(file)
+            p = m.player_new_from_media()
+
             p.play()
+
+            m.parse()
+            print("\nSong Info:")
+            if m.get_meta(0) is not None:
+                print("Title: " + m.get_meta(0))
+            else:
+                print("Title: None")
+            if m.get_meta(1) is not None:
+                print("Artist: " + m.get_meta(1))
+            else:
+                print("Artist: None")
+            if m.get_meta(4) is not None:
+                print("Album: " + m.get_meta(4))
+            else:
+                print("Album: None")
+            if m.get_meta(4) is not None:
+                print("Track: " + m.get_meta(5)+"\n")
+            else:
+                print("Track: None")
+
             time.sleep(4)
             re = 0
             while p.is_playing() == 1:
@@ -252,7 +285,6 @@ def play(rand, dir2):
 
 def menu():
     import sys
-    # from sys import platform
     global check
     global go
     time.sleep(1)
@@ -262,14 +294,6 @@ def menu():
                   "\nOther input is ignored.\n", end = ' ')
             sys.stdout.flush()
             check = sys.stdin.readline().rstrip()
-            # if platform == "darwin":
-                # print("Controls:\n[H]old, [N]ext Track, [P]revious Track, [S]top, [R]estart, [I]ndex"
-                #       "\nOther input is ignored.\n", end=' ')
-                # sys.stdout.flush()
-                # check = sys.stdin.readline().rstrip()
-            # else:
-            #    check = input("Controls:\n[H]old, [N]ext Track, [P]revious Track, "
-            #                  "[S]top, [R]estart, [I]ndex\nOther input is ignored.\n")
             go = 1
         else:
             continue
